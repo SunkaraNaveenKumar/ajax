@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const bodyHandle=document.querySelector('body')
+        const ulHandle=document.createElement('ul')
+        window.onload=function(){
+            const xhr = new XMLHttpRequest()
+    xhr.open('Get','https://restcountries.eu/rest/v2/all?fields=name;capital;population;latlng')
+    xhr.send()
+
+    xhr.onload = function(){
+        const result =  JSON.parse(xhr.responseText)
+        console.log(result)
+        const h2Handle = document.createElement('h2')
+        h2Handle.textContent = ` List Of Countries-${result.length}`
+        bodyHandle.appendChild(h2Handle)
+        result.forEach(ele=>{
+            const liHandle = document.createElement('li')
+            const buttonHandle = document.createElement('button')
+            liHandle.innerHTML = `${ele.name}`
+            buttonHandle.innerHTML='show'
+            liHandle.appendChild(buttonHandle)
+            ulHandle.appendChild(liHandle)
+            ///////////  button clicking event
+            buttonHandle.addEventListener('click',function(){
+const findelement = result.find(ele=>{
+    return liHandle.textContent.includes(`${ele.name}`)
+})
+console.log(findelement)
+alert(`capital- ${findelement.capital}| population- ${findelement.population}|latlng-[${findelement.latlng}]`)
+            })
+        })
+        bodyHandle.appendChild(ulHandle)
+        }
+        }
+    </script>
+</body>
+</html>
